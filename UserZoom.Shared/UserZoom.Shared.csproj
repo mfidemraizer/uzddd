@@ -91,6 +91,11 @@
   <ItemGroup>
     <Compile Include="ICanBeIdentifiable.cs" />
     <Compile Include="ICanBeIdentifiableContractClass.cs" />
+    <Compile Include="ICanPerformDirtyChecking.cs" />
+    <Compile Include="Patterns\Repository\IRepository..cs" />
+    <Compile Include="Patterns\Repository\IRepositoryContract.cs" />
+    <Compile Include="Patterns\Repository\MemoryRepository.cs" />
+    <Compile Include="Patterns\Specification\ISpecification.cs" />
     <Compile Include="Task.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

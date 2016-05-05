@@ -9,6 +9,7 @@ using System.Dynamic;
 using System.ComponentModel;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
+using System.Diagnostics;
 
 namespace UserZoom.Shared.Test
 {
@@ -59,6 +60,18 @@ namespace UserZoom.Shared.Test
 
         public void ThreadSynchronization()
         {
+            //IDbCommand cmd = ..; 
+            //IDataReader reader = cmd.ExecuteReader();
+
+            //class x = ne
+
+            //while()
+            //{
+            //    x.Name = reader.GetString(0)
+            //}
+
+
+
             List<Customer> customers = new List<Customer>();
             customers.AddRange(Customers);
             customers = Customers.OrderByDescending(c => c.Name).ToList();
@@ -129,6 +142,30 @@ namespace UserZoom.Shared.Test
     public class Threading
     {
         [TestMethod]
+        public void ParallelProgramming()
+        {
+            ParallelOptions options = new ParallelOptions();
+            options.MaxDegreeOfParallelism = 2;
+
+            Task forAsync = Task.Run
+            (
+                () =>
+                {
+                    Parallel.For(0, 1000, options, i =>
+                    {
+                        Debug.WriteLine(i);
+                    });
+                }
+            );
+
+            List<string> list = new List<string> { "a", "b", "c" };
+            Parallel.ForEach(list, item =>
+            {
+                Debug.WriteLine(item);
+            });
+        }
+
+        [TestMethod]
         public void Dynamic()
         {
             dynamic myDyn = new MyDynamicObject();
@@ -138,17 +175,17 @@ namespace UserZoom.Shared.Test
             {
                 string addedProperty = e.PropertyName;
             };
-            
+
             string jsonText = @"{ ""name"": ""matias"" }";
             dynamic someObject = JsonConvert.DeserializeObject<ExpandoObject>
             (
-                jsonText, 
+                jsonText,
                 new ExpandoObjectConverter()
             );
 
             Synchronized sync = new Synchronized();
 
-            if(sync.GetType().GetProperty("x") != null)
+            if (sync.GetType().GetProperty("x") != null)
             {
 
             }
@@ -171,7 +208,7 @@ namespace UserZoom.Shared.Test
 
             IDictionary<string, object> dict = (IDictionary<string, object>)expando;
 
-            if(dict.ContainsKey("doStuff"))
+            if (dict.ContainsKey("doStuff"))
             {
                 expando.doStuff();
             }
@@ -281,8 +318,8 @@ namespace UserZoom.Shared.Test
             string text = await t1;
             string text2 = await t2;
             string text3 = await tcs.Task;
-            
-            if(text.Length > 0)
+
+            if (text.Length > 0)
             {
 
             }
@@ -313,7 +350,7 @@ namespace UserZoom.Shared.Test
             (
                 t =>
                 {
-                    if(t.Exception.InnerException is InvalidOperationException)
+                    if (t.Exception.InnerException is InvalidOperationException)
                     {
 
                     }
