@@ -79,6 +79,10 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="FluentValidation, Version=6.2.1.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\FluentValidation.6.2.1.0\lib\Net45\FluentValidation.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="Newtonsoft.Json, Version=8.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <HintPath>..\packages\Newtonsoft.Json.8.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
@@ -111,6 +115,10 @@
     <Compile Include="Threading.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\UserZoom.Domain\UserZoom.Domain.csproj">
+      <Project>{93e6f8a9-3b11-478e-af2d-bda5b8eb1b18}</Project>
+      <Name>UserZoom.Domain</Name>
+    </ProjectReference>
     <ProjectReference Include="..\UserZoom.Shared\UserZoom.Shared.csproj">
       <Project>{5a7decf8-8660-48f0-8e9d-94f480eaa964}</Project>
       <Name>UserZoom.Shared</Name>

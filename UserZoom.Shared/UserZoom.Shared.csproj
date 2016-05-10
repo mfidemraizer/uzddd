@@ -75,11 +75,16 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="FluentValidation, Version=6.2.1.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\FluentValidation.6.2.1.0\lib\Net45\FluentValidation.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Collections.Immutable, Version=1.1.37.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
       <HintPath>..\packages\System.Collections.Immutable.1.1.37\lib\dotnet\System.Collections.Immutable.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
@@ -89,6 +94,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Collections\Generic\DictionaryExtensions.cs" />
     <Compile Include="ICanBeIdentifiable.cs" />
     <Compile Include="ICanBeIdentifiableContractClass.cs" />
     <Compile Include="ICanPerformDirtyChecking.cs" />
@@ -96,7 +102,8 @@
     <Compile Include="Patterns\Repository\IRepositoryContract.cs" />
     <Compile Include="Patterns\Repository\MemoryRepository.cs" />
     <Compile Include="Patterns\Specification\ISpecification.cs" />
-    <Compile Include="Task.cs" />
+    <Compile Include="Patterns\Specification\Specification.cs" />
+    <Compile Include="Patterns\Specification\SpecificationExtensions.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
