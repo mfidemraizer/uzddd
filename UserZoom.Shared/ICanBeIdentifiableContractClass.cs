@@ -17,6 +17,15 @@ namespace UserZoom.Shared
             {
                 throw new NotImplementedException();
             }
+            set
+            {
+                throw new NotImplementedException();
+            }
+        }
+
+        public bool Equals(ICanBeIdentifiable<TId> other)
+        {
+            throw new NotImplementedException();
         }
 
         [ContractInvariantMethod]

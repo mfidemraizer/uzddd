@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 namespace UserZoom.Shared
 {
     [DebuggerDisplay("Task Id: {Id}")]
-    public class UZTask : IEquatable<UZTask>, ICanBeIdentifiable<Guid>
+    public class UZTask : IEquatable<UZTask>, ICanBeIdentifiable<Guid>, ICanPerformDirtyChecking
     {
         public class IdComparer : IEqualityComparer<UZTask>
         {
@@ -28,6 +28,8 @@ namespace UserZoom.Shared
 
 
         public Guid Id { get; set; }
+
+        public bool IsDirty => Id == Guid.Empty;
 
         private static bool CheckEquality(UZTask a, UZTask b)
         {
@@ -49,6 +51,11 @@ namespace UserZoom.Shared
         public override int GetHashCode()
         {
             return Id.GetHashCode();
+        }
+
+        public bool Equals(ICanBeIdentifiable<Guid> other)
+        {
+            throw new NotImplementedException();
         }
     }
 }
