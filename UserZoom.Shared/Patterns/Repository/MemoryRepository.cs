@@ -4,6 +4,7 @@ using System.Diagnostics.Contracts;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using UserZoom.Shared.Data;
 using UserZoom.Shared.Patterns.Specification;
 
 namespace UserZoom.Shared.Patterns.Repository
@@ -12,28 +13,39 @@ namespace UserZoom.Shared.Patterns.Repository
         where TDomainObjectId : IEquatable<TDomainObjectId>
         where TDomainObject : class, ICanBeIdentifiable<TDomainObjectId>, ICanPerformDirtyChecking
     {
-        public MemoryRepository(IEnumerable<ISpecification<TDomainObjectId, TDomainObject>> specs)
+        public MemoryRepository(IIdGenerator<TDomainObjectId> idGenerator, IEnumerable<ISpecification<TDomainObjectId, TDomainObject>> specs)
         {
-
+            IdGenerator = idGenerator;
+            Specs = specs;
         }
 
+        public IIdGenerator<TDomainObjectId> IdGenerator { get; }
+
+        private IEnumerable<ISpecification<TDomainObjectId, TDomainObject>> Specs { get; }
         private HashSet<TDomainObject> Storage { get; } = new HashSet<TDomainObject>();
 
-        public Task AddOrUpdateAsync(TDomainObject domainObject)
+        public async Task AddOrUpdateAsync(TDomainObject domainObject)
         {
             if (domainObject.IsDirty)
             {
-                // TODO: Asignar id
-                // domainObject.Id = Guid.NewGuid();
-                Contract.Assert(Storage.Add(domainObject));
+                var failedSpecs = await Specs.GetAddSpecs().RunSpecsAsync(domainObject);
+                
+                if (failedSpecs.Count() == 0)
+                {
+                    domainObject.Id = IdGenerator.Generate();
+                    Contract.Assert(Storage.Add(domainObject));
+                }
             }
             else
             {
-                Contract.Assert(Storage.Remove(domainObject));
-                Contract.Assert(Storage.Add(domainObject));
-            }
+                var failedSpecs = await Specs.GetUpdateSpecs().RunSpecsAsync(domainObject);
 
-            return Task.FromResult(true);
+                if (failedSpecs.Count() == 0)
+                {
+                    Contract.Assert(Storage.Remove(domainObject));
+                    Contract.Assert(Storage.Add(domainObject));
+                }
+            }
         }
 
         public Task<TDomainObject> GetByIdAsync(TDomainObjectId id)
