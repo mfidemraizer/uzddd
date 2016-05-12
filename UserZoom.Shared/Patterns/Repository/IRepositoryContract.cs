@@ -4,6 +4,7 @@ using System.Diagnostics.Contracts;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using UserZoom.Shared.Data;
 
 namespace UserZoom.Shared.Patterns.Repository
 {
@@ -12,6 +13,14 @@ namespace UserZoom.Shared.Patterns.Repository
         where TDomainObjectId : IEquatable<TDomainObjectId>
         where TDomainObject : class, ICanBeIdentifiable<TDomainObjectId>, ICanPerformDirtyChecking
     {
+        public IIdGenerator<TDomainObjectId> IdGenerator
+        {
+            get
+            {
+                throw new NotImplementedException();
+            }
+        }
+
         public Task AddOrUpdateAsync(TDomainObject domainObject)
         {
             Contract.Requires(domainObject != null);
