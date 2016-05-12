@@ -95,6 +95,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Collections\Generic\DictionaryExtensions.cs" />
+    <Compile Include="Data\GuidIdGenerator.cs" />
+    <Compile Include="Data\IIdGenerator.cs" />
     <Compile Include="ICanBeIdentifiable.cs" />
     <Compile Include="ICanBeIdentifiableContractClass.cs" />
     <Compile Include="ICanPerformDirtyChecking.cs" />

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Diagnostics.Contracts;
 using System.Threading.Tasks;
+using UserZoom.Shared.Data;
 
 namespace UserZoom.Shared.Patterns.Repository
 {
