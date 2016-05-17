@@ -2,18 +2,19 @@
 using System.Diagnostics.Contracts;
 using System.Threading.Tasks;
 using UserZoom.Shared.Data;
+using UserZoom.Shared.Patterns.AccumulatedResult;
 
 namespace UserZoom.Shared.Patterns.Repository
 {
-    [ContractClass(typeof(IRepositoryContract<,>))]
+    //[ContractClass(typeof(IRepositoryContract<,>))]
     public interface IRepository<TDomainObjectId, TDomainObject>
         where TDomainObjectId : IEquatable<TDomainObjectId>
         where TDomainObject : class, ICanBeIdentifiable<TDomainObjectId>, ICanPerformDirtyChecking
     {
         IIdGenerator<TDomainObjectId> IdGenerator { get; }
 
-        Task<TDomainObject> GetByIdAsync(TDomainObjectId id);
-        Task AddOrUpdateAsync(TDomainObject domainObject);
-        Task RemoveAsync(TDomainObject domainObject);
+        Task<ISingleObjectResult<TDomainObject>> GetByIdAsync(TDomainObjectId id);
+        Task<IBasicResult> AddOrUpdateAsync(TDomainObject domainObject);
+        Task<IBasicResult> RemoveAsync(TDomainObject domainObject);
     }
 }

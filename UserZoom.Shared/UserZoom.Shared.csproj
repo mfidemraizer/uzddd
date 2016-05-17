@@ -116,6 +116,11 @@
     <Compile Include="ICanBeIdentifiable.cs" />
     <Compile Include="ICanBeIdentifiableContractClass.cs" />
     <Compile Include="ICanPerformDirtyChecking.cs" />
+    <Compile Include="Patterns\AccumulatedResult\BasicResult.cs" />
+    <Compile Include="Patterns\AccumulatedResult\IBasicResult.cs" />
+    <Compile Include="Patterns\AccumulatedResult\IMultipleObjectResult.cs" />
+    <Compile Include="Patterns\AccumulatedResult\ISingleObjectResult.cs" />
+    <Compile Include="Patterns\AccumulatedResult\SingleObjectResult.cs" />
     <Compile Include="Patterns\Repository\IRepository..cs" />
     <Compile Include="Patterns\Repository\IRepositoryContract.cs" />
     <Compile Include="Patterns\Repository\MemoryRepository.cs" />

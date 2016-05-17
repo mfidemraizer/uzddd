@@ -4,6 +4,7 @@ using System.Diagnostics.Contracts;
 using System.Linq;
 using System.Threading.Tasks;
 using UserZoom.Shared.Data;
+using UserZoom.Shared.Patterns.AccumulatedResult;
 using UserZoom.Shared.Patterns.Specification;
 
 namespace UserZoom.Shared.Patterns.Repository
@@ -19,9 +20,15 @@ namespace UserZoom.Shared.Patterns.Repository
         
         private HashSet<TDomainObject> Storage { get; } = new HashSet<TDomainObject>();
 
-        public override Task<TDomainObject> GetByIdAsync(TDomainObjectId id)
+        public override Task<ISingleObjectResult<TDomainObject>> GetByIdAsync(TDomainObjectId id)
         {
-            return Task.FromResult(Storage.Single(o => o.Id.Equals(id)));
+            SingleObjectResult<TDomainObject> result = new SingleObjectResult<TDomainObject>
+            (
+                "Operation done",
+                Storage.Single(o => o.Id.Equals(id))
+            );
+
+            return Task.FromResult<ISingleObjectResult<TDomainObject>>(result);
         }
 
         protected override Task OnAddAsync(TDomainObject domainObject)
@@ -39,11 +46,11 @@ namespace UserZoom.Shared.Patterns.Repository
             return Task.FromResult(true);
         }
         
-        public override Task RemoveAsync(TDomainObject domainObject)
+        public override Task<IBasicResult> RemoveAsync(TDomainObject domainObject)
         {
             Contract.Assert(Storage.Remove(domainObject));
 
-            return Task.FromResult(true);
+            return Task.FromResult<IBasicResult>(new BasicResult("Ok"));
         }
     }
 }

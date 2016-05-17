@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using UserZoom.Shared.Data;
+using UserZoom.Shared.Patterns.AccumulatedResult;
 using UserZoom.Shared.Patterns.Specification;
 
 namespace UserZoom.Shared.Patterns.Repository
@@ -23,7 +24,7 @@ namespace UserZoom.Shared.Patterns.Repository
 
         private IEnumerable<ISpecification<TDomainObjectId, TDomainObject>> Specs { get; }
 
-        public async Task AddOrUpdateAsync(TDomainObject domainObject)
+        public async Task<IBasicResult> AddOrUpdateAsync(TDomainObject domainObject)
         {
             if (domainObject.IsDirty)
             {
@@ -33,7 +34,7 @@ namespace UserZoom.Shared.Patterns.Repository
                 {
                     domainObject.Id = IdGenerator.Generate();
                     await OnAddAsync(domainObject);
-                }
+ Class1.cs               }
             }
             else
             {
@@ -44,12 +45,14 @@ namespace UserZoom.Shared.Patterns.Repository
                     await OnUpdateAsync(domainObject);
                 }
             }
+
+            return null;
         }
 
         protected abstract Task OnAddAsync(TDomainObject domainObject);
         protected abstract Task OnUpdateAsync(TDomainObject domainObject);
 
-        public abstract Task<TDomainObject> GetByIdAsync(TDomainObjectId id);
-        public abstract Task RemoveAsync(TDomainObject domainObject);
+        public abstract Task<ISingleObjectResult<TDomainObject>> GetByIdAsync(TDomainObjectId id);
+        public abstract Task<IBasicResult> RemoveAsync(TDomainObject domainObject);
     }
 }
