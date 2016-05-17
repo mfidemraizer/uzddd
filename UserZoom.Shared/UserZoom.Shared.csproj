@@ -120,6 +120,7 @@
     <Compile Include="Patterns\AccumulatedResult\IBasicResult.cs" />
     <Compile Include="Patterns\AccumulatedResult\IMultipleObjectResult.cs" />
     <Compile Include="Patterns\AccumulatedResult\ISingleObjectResult.cs" />
+    <Compile Include="Patterns\AccumulatedResult\MultipleObjectResult.cs" />
     <Compile Include="Patterns\AccumulatedResult\SingleObjectResult.cs" />
     <Compile Include="Patterns\Repository\IRepository..cs" />
     <Compile Include="Patterns\Repository\IRepositoryContract.cs" />
