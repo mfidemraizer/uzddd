@@ -29,10 +29,10 @@ namespace UserZoom.Domain
         }
 
 
-        public Guid Id { get; set; }
+        public virtual Guid Id { get; set; }
 
         //[Required, MinLength(1)]
-        public string Title { get; set; }
+        public virtual string Title { get; set; }
 
         public bool IsDirty => Id == Guid.Empty;
 
