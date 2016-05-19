@@ -4,7 +4,7 @@ using System.Threading.Tasks;
 using UserZoom.Shared.Patterns.Specification;
 
 namespace UserZoom.Domain.TaskManagement.Specs
-{
+{ 
     public sealed class AddOrUpdateTaskSpec : Specification<Guid, UZTask>
     {
         public AddOrUpdateTaskSpec()

@@ -10,7 +10,7 @@ using UserZoom.Shared.Patterns.Specification;
 
 namespace UserZoom.Shared.Patterns.Repository
 {
-    public abstract class Repository<TDomainObjectId, TDomainObject> : IRepository<TDomainObjectId, TDomainObject>
+    public abstract class Repository<TDomainObjectId, TDomainObject> : IDataHandler<TDomainObject>, IRepository<TDomainObjectId, TDomainObject>
         where TDomainObjectId : IEquatable<TDomainObjectId>
         where TDomainObject : class, ICanBeIdentifiable<TDomainObjectId>, ICanPerformDirtyChecking
     {
@@ -33,8 +33,16 @@ namespace UserZoom.Shared.Patterns.Repository
                 if (failedSpecs.Count() == 0)
                 {
                     domainObject.Id = IdGenerator.Generate();
+
+                    IHasTimestamp withTimestamp = domainObject as IHasTimestamp;
+
+                    if (withTimestamp != null)
+                    {
+                        withTimestamp.DateAdded = DateTimeOffset.Now;
+                    }
+
                     await OnAddAsync(domainObject);
- Class1.cs               }
+                }
             }
             else
             {
@@ -54,5 +62,15 @@ namespace UserZoom.Shared.Patterns.Repository
 
         public abstract Task<ISingleObjectResult<TDomainObject>> GetByIdAsync(TDomainObjectId id);
         public abstract Task<IBasicResult> RemoveAsync(TDomainObject domainObject);
+
+        Task IDataHandler<TDomainObject>.OnAddAsync(TDomainObject domainObject)
+        {
+            return OnAddAsync(domainObject);
+        }
+
+        Task IDataHandler<TDomainObject>.OnUpdateAsync(TDomainObject domainObject)
+        {
+            return OnUpdateAsync(domainObject);
+        }
     }
 }

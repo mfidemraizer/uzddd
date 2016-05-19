@@ -10,6 +10,7 @@ using System.Threading.Tasks;
 using UserZoom.Domain;
 using UserZoom.Domain.TaskManagement.Specs;
 using UserZoom.Shared.Data;
+using UserZoom.Shared.Patterns.AccumulatedResult;
 using UserZoom.Shared.Patterns.Repository;
 using UserZoom.Shared.Patterns.Specification;
 
@@ -52,9 +53,9 @@ namespace UserZoom.Shared.Test
             UZTask testTask = new UZTask();
             await repo.AddOrUpdateAsync(testTask);
 
-            UZTask gotTask = await repo.GetByIdAsync(testTask.Id);
+            ISingleObjectResult<UZTask> gotTask = await repo.GetByIdAsync(testTask.Id);
 
-            Assert.IsFalse(gotTask.IsDirty);
+            Assert.IsFalse(gotTask.Object.IsDirty);
             Assert.AreEqual(testTask, gotTask);
         }
     }
