@@ -5,6 +5,9 @@ using System.Threading.Tasks;
 using System.Linq;
 using System.Collections.Generic;
 using System.Diagnostics;
+using UserZoom.Shared.Patterns.Domain;
+using UserZoom.Shared.Patterns.Repository;
+using Castle.Windsor;
 
 namespace UserZoom.Shared.Test.EntityFramework
 {
@@ -14,6 +17,8 @@ namespace UserZoom.Shared.Test.EntityFramework
         [TestMethod]
         public async Task TestMethod1()
         {
+            IWindsorContainer container = Container.Configure();
+
             UZTask createdTask;
 
             using (TaskContext taskContext = new TaskContext())
@@ -27,12 +32,14 @@ namespace UserZoom.Shared.Test.EntityFramework
                 await taskContext.SaveChangesAsync();
             }
 
-            using (TaskContext taskContext = new TaskContext())
+            using (IDomainUnitOfWork<Guid, UZTask, IRepository<Guid, UZTask>> unitOfWork = container.Resolve<IDomainUnitOfWork<Guid, UZTask, IRepository<Guid, UZTask>>>())
             {
-                UZTask task = await taskContext.Tasks.FindAsync(Guid.NewGuid());
-                task.Title = "Changed title";
+                var task = await unitOfWork.Repository.GetByIdAsync(createdTask.Id);
+             
 
-                await taskContext.SaveChangesAsync();
+                task.Object.Title = "Changed title";
+
+                await unitOfWork.CommitAsync();
             }
 
             using (TaskContext taskContext = new TaskContext())

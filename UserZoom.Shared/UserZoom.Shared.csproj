@@ -134,6 +134,8 @@
     <Compile Include="Patterns\AccumulatedResult\MultipleObjectResult.cs" />
     <Compile Include="Patterns\AccumulatedResult\SingleObjectResult.cs" />
     <Compile Include="Patterns\Domain\DomainObject.cs" />
+    <Compile Include="Patterns\Domain\IDomainUnitOfWork.cs" />
+    <Compile Include="Patterns\Repository\EFRepository.cs" />
     <Compile Include="Patterns\Repository\IRepository..cs" />
     <Compile Include="Patterns\Repository\IRepositoryContract.cs" />
     <Compile Include="Patterns\Repository\MemoryRepository.cs" />
@@ -142,6 +144,7 @@
     <Compile Include="Patterns\Specification\ISpecification.cs" />
     <Compile Include="Patterns\Specification\Specification.cs" />
     <Compile Include="Patterns\Specification\SpecificationExtensions.cs" />
+    <Compile Include="Patterns\UnitOfWork\EFUnitOfWork.cs" />
     <Compile Include="Patterns\UnitOfWork\IUnitOfWork.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Redis\ConnectionMultiplexerFactory.cs" />

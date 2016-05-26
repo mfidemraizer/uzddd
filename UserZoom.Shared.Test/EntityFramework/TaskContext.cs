@@ -11,15 +11,6 @@ namespace UserZoom.Shared.Test.EntityFramework
 {
     public sealed class TaskContext : DbContext
     {
-        //protected override void OnModelCreating(DbModelBuilder modelBuilder)
-        //{
-        //    //var entityConfig = modelBuilder.Entity<UZTask>();
-
-        //    //entityConfig.HasKey(t => t.Id);
-
-        //    base.OnModelCreating(modelBuilder);
-        //}
-
         public TaskContext() 
             : base(ConfigurationManager.AppSettings["uz:data:connectionString:name"])
         {

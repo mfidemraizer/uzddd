@@ -133,6 +133,7 @@
   </Choose>
   <ItemGroup>
     <Compile Include="CollectionsAndExpressionTrees.cs" />
+    <Compile Include="Container.cs" />
     <Compile Include="EntityFramework\TaskContext.cs" />
     <Compile Include="EntityFramework\UnitTest1.cs" />
     <Compile Include="IRepositoryTest.cs" />
