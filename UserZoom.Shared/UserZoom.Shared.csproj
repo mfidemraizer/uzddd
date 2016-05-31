@@ -110,6 +110,14 @@
     </Reference>
     <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Net.Http.Formatting, Version=5.2.3.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.WebApi.Client.5.2.3\lib\net45\System.Net.Http.Formatting.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Web.Http, Version=5.2.3.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.WebApi.Core.5.2.3\lib\net45\System.Web.Http.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -122,6 +130,7 @@
     <Compile Include="Data\GuidIdGenerator.cs" />
     <Compile Include="Data\IDataHandler.cs" />
     <Compile Include="Data\IIdGenerator.cs" />
+    <Compile Include="Http\WindsorControllerActivator.cs" />
     <Compile Include="ICanBeIdentifiable.cs" />
     <Compile Include="ICanBeIdentifiableContractClass.cs" />
     <Compile Include="ICanPerformDirtyChecking.cs" />
