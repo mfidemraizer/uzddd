@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data.Entity;
+using System.Diagnostics.Contracts;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
@@ -22,12 +23,31 @@ namespace UserZoom.Shared.Patterns.Repository
 
         public DbSet<TDomainObject> DbSet { get; }
 
-        public async override Task<IMultipleObjectResult<ICollection<TDomainObject>, TDomainObject>> GetByCriteria(Expression<Func<TDomainObject, bool>> criteriaExpr, long from = 0, int count = 10)
+        protected override async Task<IMultipleObjectResult<ICollection<TDomainObject>, TDomainObject>> GetByCriteria(Func<IQueryable<TDomainObject>, IQueryable<TDomainObject>> queryFunc)
         {
             return new MultipleObjectResult<ICollection<TDomainObject>, TDomainObject>
             (
                 "OK",
-                await DbSet.Where(criteriaExpr).ToListAsync()
+                 await queryFunc(DbSet).ToListAsync()
+            );
+        }
+
+        public async override Task<IMultipleObjectResult<ICollection<TDomainObject>, TDomainObject>> GetByCriteria(Expression<Func<TDomainObject, bool>> criteriaExpr, long from = 0, int count = 10)
+        {
+            Contract.Requires(count >= 10);
+
+            return await GetByCriteria
+            (
+                queryable =>
+                {
+                    if (criteriaExpr != null)
+                        queryable = DbSet.Where(criteriaExpr);
+
+                    if (from > 0)
+                        queryable = queryable.Skip((int)from);
+
+                    return queryable.Take(count);
+                }
             );
         }
 

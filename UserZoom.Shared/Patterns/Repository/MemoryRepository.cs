@@ -58,5 +58,10 @@ namespace UserZoom.Shared.Patterns.Repository
         {
             throw new NotImplementedException();
         }
+
+        protected override Task<IMultipleObjectResult<ICollection<TDomainObject>, TDomainObject>> GetByCriteria(Func<IQueryable<TDomainObject>, IQueryable<TDomainObject>> queryFunc)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

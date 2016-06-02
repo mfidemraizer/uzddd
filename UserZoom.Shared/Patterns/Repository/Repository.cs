@@ -11,7 +11,7 @@ using UserZoom.Shared.Patterns.Specification;
 
 namespace UserZoom.Shared.Patterns.Repository
 {
-    public abstract class Repository<TDomainObjectId, TDomainObject> : IDataHandler<TDomainObject>, IRepository<TDomainObjectId, TDomainObject>
+    public abstract class Repository<TDomainObjectId, TDomainObject> : IDataHandler<TDomainObject>, IDataQuery<TDomainObject>, IRepository<TDomainObjectId, TDomainObject>
         where TDomainObjectId : IEquatable<TDomainObjectId>
         where TDomainObject : class, ICanBeIdentifiable<TDomainObjectId>, ICanPerformDirtyChecking
     {
@@ -74,6 +74,12 @@ namespace UserZoom.Shared.Patterns.Repository
             return OnUpdateAsync(domainObject);
         }
 
+        protected abstract Task<IMultipleObjectResult<ICollection<TDomainObject>, TDomainObject>> GetByCriteria(Func<IQueryable<TDomainObject>, IQueryable<TDomainObject>> queryFunc);
         public abstract Task<IMultipleObjectResult<ICollection<TDomainObject>, TDomainObject>> GetByCriteria(Expression<Func<TDomainObject, bool>> criteriaExpr, long from = 0, int count = 10);
+
+        Task<IMultipleObjectResult<ICollection<TDomainObject>, TDomainObject>> IDataQuery<TDomainObject>.GetByCriteria(Func<IQueryable<TDomainObject>, IQueryable<TDomainObject>> queryFunc)
+        {
+            return GetByCriteria(queryFunc);
+        }
     }
 }

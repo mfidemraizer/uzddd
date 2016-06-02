@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Diagnostics.Contracts;
 using System.Linq;
 using System.Linq.Expressions;
-using System.Text;
 using System.Threading.Tasks;
 using UserZoom.Shared.Data;
 using UserZoom.Shared.Patterns.AccumulatedResult;
@@ -63,6 +62,15 @@ namespace UserZoom.Domain.AccountManagement
         public override Task<IMultipleObjectResult<ICollection<Account>, Account>> GetByCriteria(Expression<Func<Account, bool>> criteriaExpr, long from = 0, int count = 10)
         {
             return Repository.GetByCriteria(criteriaExpr, from, count);
+        }
+
+        protected override Task<IMultipleObjectResult<ICollection<Account>, Account>> GetByCriteria(Func<IQueryable<Account>, IQueryable<Account>> queryFunc)
+        {
+            IDataQuery<Account> dataQuery = Repository as IDataQuery<Account>;
+
+            Contract.Assert(dataQuery != null);
+
+            return dataQuery.GetByCriteria(queryFunc: queryFunc);
         }
     }
 }

@@ -62,6 +62,11 @@ namespace UserZoom.Shared.Patterns.Repository
             return new BasicResult("Ok");
         }
 
+        protected override Task<IMultipleObjectResult<ICollection<TDomainObject>, TDomainObject>> GetByCriteria(Func<IQueryable<TDomainObject>, IQueryable<TDomainObject>> queryFunc)
+        {
+            throw new NotImplementedException();
+        }
+
         protected async override Task OnAddAsync(TDomainObject domainObject)
         {
             Contract.Assert(!await Database.HashExistsAsync($"userzoom:{nameof(TDomainObject).ToLowerInvariant()}", domainObject.Id.ToString()));
