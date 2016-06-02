@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Diagnostics.Contracts;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
 using UserZoom.Shared.Data;
@@ -72,5 +73,7 @@ namespace UserZoom.Shared.Patterns.Repository
         {
             return OnUpdateAsync(domainObject);
         }
+
+        public abstract Task<IMultipleObjectResult<ICollection<TDomainObject>, TDomainObject>> GetByCriteria(Expression<Func<TDomainObject, bool>> criteriaExpr, long from = 0, int count = 10);
     }
 }

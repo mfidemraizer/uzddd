@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data.Entity;
+using System.Linq;
+using System.Linq.Expressions;
 using System.Threading.Tasks;
 using UserZoom.Shared.Data;
 using UserZoom.Shared.Patterns.AccumulatedResult;
@@ -19,6 +21,15 @@ namespace UserZoom.Shared.Patterns.Repository
         }
 
         public DbSet<TDomainObject> DbSet { get; }
+
+        public async override Task<IMultipleObjectResult<ICollection<TDomainObject>, TDomainObject>> GetByCriteria(Expression<Func<TDomainObject, bool>> criteriaExpr)
+        {
+            return new MultipleObjectResult<ICollection<TDomainObject>, TDomainObject>
+            (
+                "OK",
+                await DbSet.Where(criteriaExpr).ToListAsync()
+            );
+        }
 
         public async override Task<ISingleObjectResult<TDomainObject>> GetByIdAsync(TDomainObjectId id)
         {

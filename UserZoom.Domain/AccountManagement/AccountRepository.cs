@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Diagnostics.Contracts;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
 using UserZoom.Shared.Data;
@@ -57,6 +58,11 @@ namespace UserZoom.Domain.AccountManagement
         public Task<IMultipleObjectResult<IList<Account>, Account>> ListTopTenActiveAsync()
         {
             throw new NotImplementedException();
+        }
+
+        public override Task<IMultipleObjectResult<ICollection<Account>, Account>> GetByCriteria(Expression<Func<Account, bool>> criteriaExpr, long from = 0, int count = 10)
+        {
+            return Repository.GetByCriteria(criteriaExpr, from, count);
         }
     }
 }

@@ -10,6 +10,7 @@ using UserZoom.Shared.Data;
 using UserZoom.Shared.Patterns.AccumulatedResult;
 using UserZoom.Shared.Patterns.Specification;
 using UserZoom.Shared.Redis;
+using System.Linq.Expressions;
 
 namespace UserZoom.Shared.Patterns.Repository
 {
@@ -23,6 +24,11 @@ namespace UserZoom.Shared.Patterns.Repository
         }
 
         private IDatabase Database { get; } = ConnectionMultiplexerFactory.Current.GetDatabase(0);
+
+        public override Task<IMultipleObjectResult<ICollection<TDomainObject>, TDomainObject>> GetByCriteria(Expression<Func<TDomainObject, bool>> criteriaExpr, long from = 0, int count = 10)
+        {
+            throw new NotImplementedException();
+        }
 
         public async override Task<ISingleObjectResult<TDomainObject>> GetByIdAsync(TDomainObjectId id)
         {

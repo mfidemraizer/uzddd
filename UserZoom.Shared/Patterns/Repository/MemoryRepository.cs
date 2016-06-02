@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Diagnostics.Contracts;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Threading.Tasks;
 using UserZoom.Shared.Data;
 using UserZoom.Shared.Patterns.AccumulatedResult;
@@ -51,6 +52,11 @@ namespace UserZoom.Shared.Patterns.Repository
             Contract.Assert(Storage.Remove(domainObject));
 
             return Task.FromResult<IBasicResult>(new BasicResult("Ok"));
+        }
+
+        public override Task<IMultipleObjectResult<ICollection<TDomainObject>, TDomainObject>> GetByCriteria(Expression<Func<TDomainObject, bool>> criteriaExpr, long from = 0, int count = 10)
+        {
+            throw new NotImplementedException();
         }
     }
 }
