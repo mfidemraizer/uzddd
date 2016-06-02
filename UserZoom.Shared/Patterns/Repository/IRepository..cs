@@ -18,6 +18,6 @@ namespace UserZoom.Shared.Patterns.Repository
         Task<ISingleObjectResult<TDomainObject>> GetByIdAsync(TDomainObjectId id);
         Task<IBasicResult> AddOrUpdateAsync(TDomainObject domainObject);
         Task<IBasicResult> RemoveAsync(TDomainObject domainObject);
-        Task<IMultipleObjectResult<ICollection<TDomainObject>, TDomainObject>> GetByCriteria(Expression<Func<TDomainObject, bool>> criteriaExpr);
+        Task<IMultipleObjectResult<ICollection<TDomainObject>, TDomainObject>> GetByCriteria(Expression<Func<TDomainObject, bool>> criteriaExpr, long from = 0, int count = 10);
     }
 }

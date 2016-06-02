@@ -22,7 +22,7 @@ namespace UserZoom.Shared.Patterns.Repository
 
         public DbSet<TDomainObject> DbSet { get; }
 
-        public async override Task<IMultipleObjectResult<ICollection<TDomainObject>, TDomainObject>> GetByCriteria(Expression<Func<TDomainObject, bool>> criteriaExpr)
+        public async override Task<IMultipleObjectResult<ICollection<TDomainObject>, TDomainObject>> GetByCriteria(Expression<Func<TDomainObject, bool>> criteriaExpr, long from = 0, int count = 10)
         {
             return new MultipleObjectResult<ICollection<TDomainObject>, TDomainObject>
             (
