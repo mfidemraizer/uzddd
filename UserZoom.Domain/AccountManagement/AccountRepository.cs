@@ -49,14 +49,14 @@ namespace UserZoom.Domain.AccountManagement
             return dataHandler.OnUpdateAsync(domainObject);
         }
 
-        public Task<IMultipleObjectResult<IList<Account>, Account>> ListTopTen()
+        public Task<IMultipleObjectResult<ICollection<Account>, Account>> ListTopTen()
         {
-            throw new NotImplementedException();
+            return GetByCriteria(q => q.OrderBy(a => a.Id).Take(10));
         }
 
-        public Task<IMultipleObjectResult<IList<Account>, Account>> ListTopTenActiveAsync()
+        public Task<IMultipleObjectResult<ICollection<Account>, Account>> ListTopTenActiveAsync()
         {
-            throw new NotImplementedException();
+            return GetByCriteria(q => q.OrderBy(a => a.Studies.OrderByDescending(s => s.DateAdded).First().DateAdded).Take(10));
         }
 
         public override Task<IMultipleObjectResult<ICollection<Account>, Account>> GetByCriteria(Expression<Func<Account, bool>> criteriaExpr, long from = 0, int count = 10)

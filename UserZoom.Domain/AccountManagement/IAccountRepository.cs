@@ -10,7 +10,7 @@ namespace UserZoom.Domain.AccountManagement
 {
     public interface IAccountRepository : IRepository<Guid, Account>
     {
-        Task<IMultipleObjectResult<IList<Account>, Account>> ListTopTen();
-        Task<IMultipleObjectResult<IList<Account>, Account>> ListTopTenActiveAsync();
+        Task<IMultipleObjectResult<ICollection<Account>, Account>> ListTopTen();
+        Task<IMultipleObjectResult<ICollection<Account>, Account>> ListTopTenActiveAsync();
     }
 }

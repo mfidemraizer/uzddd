@@ -2,6 +2,8 @@
 using Castle.MicroKernel.Resolvers.SpecializedResolvers;
 using Castle.Windsor;
 using System;
+using System.Data.Entity;
+using System.Web.Http;
 using UserZoom.Domain;
 using UserZoom.Domain.TaskManagement;
 using UserZoom.Domain.TaskManagement.Specs;
@@ -26,32 +28,25 @@ namespace WebApiHost
                 Component.For<EchoController>().ImplementedBy<EchoController>().LifestyleTransient(),
 
                 Component.For<ITaskService>().ImplementedBy<TaskService>(),
-                
+
                 // Units of work
                 Component.For<IDomainUnitOfWork<Guid, UZTask, IRepository<Guid, UZTask>>>()
-                        .ImplementedBy<EFUnitOfWork<Guid, UZTask, IRepository<Guid, UZTask>, TaskContext>>(),
+                        .ImplementedBy<EFUnitOfWork<Guid, UZTask, IRepository<Guid, UZTask>, TaskContext>>()
+                        .DependsOn(Dependency.OnComponent<DbContext, TaskContext>()),
 
-                //Component.For<TaskContext>().LifestyleTransient(),
+                Component.For<TaskContext>().LifestyleBoundTo<ApiController>(),
+
+                // DbContexts
+
+                //Component.For<DbContext>()
+                //        .ImplementedBy<TaskContext>()
+                //        .LifestyleBoundTo<ApiController>(),
 
                 //Repositories
                 Component.For<IRepository<Guid, UZTask>>()
-                        .UsingFactoryMethod
-                        (
-                             () =>
-                             {
-                                 TaskContext dbContext = new TaskContext();
-
-                                 EFRepository<Guid, UZTask> repo = new EFRepository<Guid, UZTask>
-                                 (
-                                     dbContext.Tasks,
-                                     container.Resolve<IIdGenerator<Guid>>(),
-                                     container.ResolveAll<ISpecification<Guid, UZTask>>()
-                                   );
-
-                                 return repo;
-                             }
-                        )
-                        .LifestyleTransient(),
+                            .ImplementedBy<EFRepository<Guid, UZTask>>()
+                            .DependsOn(Dependency.OnComponent<DbContext, TaskContext>())
+                            .LifestyleTransient(),
 
                 // Id generators
                 Component.For<IIdGenerator<Guid>>()

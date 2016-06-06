@@ -15,10 +15,10 @@ namespace UserZoom.Shared.Patterns.Repository
         where TDomainObjectId : IEquatable<TDomainObjectId>
         where TDomainObject : class, ICanBeIdentifiable<TDomainObjectId>, ICanPerformDirtyChecking
     {
-        public EFRepository(DbSet<TDomainObject> dbSet, IIdGenerator<TDomainObjectId> idGenerator, IEnumerable<ISpecification<TDomainObjectId, TDomainObject>> specs)
+        public EFRepository(DbContext context, IIdGenerator<TDomainObjectId> idGenerator, IEnumerable<ISpecification<TDomainObjectId, TDomainObject>> specs)
             : base(idGenerator, specs)
         {
-            DbSet = dbSet;
+            DbSet = context.Set<TDomainObject>();
         }
 
         public DbSet<TDomainObject> DbSet { get; }
@@ -41,7 +41,7 @@ namespace UserZoom.Shared.Patterns.Repository
                 queryable =>
                 {
                     if (criteriaExpr != null)
-                        queryable = DbSet.Where(criteriaExpr);
+                        queryable = queryable.Where(criteriaExpr);
 
                     if (from > 0)
                         queryable = queryable.Skip((int)from);

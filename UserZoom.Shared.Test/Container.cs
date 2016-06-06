@@ -25,43 +25,43 @@ namespace UserZoom.Shared.Test
             WindsorContainer container = new WindsorContainer();
             container.Kernel.Resolver.AddSubResolver(new CollectionResolver(container.Kernel));
 
-            container.Register
-            (
-                // Units of work
-                Component.For<IDomainUnitOfWork<Guid, UZTask, IRepository<Guid, UZTask>>>()
-                        .ImplementedBy<EFUnitOfWork<Guid, UZTask, IRepository<Guid, UZTask>, TaskContext>>(),
+            //container.Register
+            //(
+            //    // Units of work
+            //    Component.For<IDomainUnitOfWork<Guid, UZTask, IRepository<Guid, UZTask>>>()
+            //            .ImplementedBy<EFUnitOfWork<Guid, UZTask, IRepository<Guid, UZTask>, TaskContext>>(),
 
-                Component.For<TaskContext>().LifestyleTransient(),
+            //    Component.For<TaskContext>().LifestyleTransient(),
 
-                // Repositories
-                Component.For<IRepository<Guid, UZTask>>()
-                        .UsingFactoryMethod
-                        (
-                             () =>
-                             {
-                                 TaskContext dbContext = new TaskContext();
+            //    // Repositories
+            //    Component.For<IRepository<Guid, UZTask>>()
+            //            .UsingFactoryMethod
+            //            (
+            //                 () =>
+            //                 {
+            //                     TaskContext dbContext = new TaskContext();
 
-                                 EFRepository<Guid, UZTask> repo = new EFRepository<Guid, UZTask>
-                                 (
-                                     dbContext.Tasks,
-                                     container.Resolve<IIdGenerator<Guid>>(),
-                                     container.ResolveAll<ISpecification<Guid, UZTask>>()
-                                   );
+            //                     EFRepository<Guid, UZTask> repo = new EFRepository<Guid, UZTask>
+            //                     (
+            //                         dbContext.Tasks,
+            //                         container.Resolve<IIdGenerator<Guid>>(),
+            //                         container.ResolveAll<ISpecification<Guid, UZTask>>()
+            //                       );
 
-                                 return repo;
-                             }
-                        )
-                        .LifestyleTransient(),
+            //                     return repo;
+            //                 }
+            //            )
+            //            .LifestyleTransient(),
 
-                // Id generators
-                Component.For<IIdGenerator<Guid>>()
-                        .ImplementedBy<GuidIdGenerator>(),
+            //    // Id generators
+            //    Component.For<IIdGenerator<Guid>>()
+            //            .ImplementedBy<GuidIdGenerator>(),
 
-                // Specs
-                Component.For<ISpecification<Guid, UZTask>>()
-                         .ImplementedBy<AddOrUpdateTaskSpec>()
-                         .LifestyleTransient()
-            );
+            //    // Specs
+            //    Component.For<ISpecification<Guid, UZTask>>()
+            //             .ImplementedBy<AddOrUpdateTaskSpec>()
+            //             .LifestyleTransient()
+            //);
 
             return container;
         }

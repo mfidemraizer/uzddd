@@ -129,6 +129,7 @@
     <Compile Include="Collections\Generic\DictionaryExtensions.cs" />
     <Compile Include="Data\GuidIdGenerator.cs" />
     <Compile Include="Data\IDataHandler.cs" />
+    <Compile Include="Data\IDataQuery.cs" />
     <Compile Include="Data\IIdGenerator.cs" />
     <Compile Include="Http\WindsorControllerActivator.cs" />
     <Compile Include="ICanBeIdentifiable.cs" />
