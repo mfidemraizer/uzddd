@@ -18,17 +18,17 @@ namespace UserZoom.Shared.Patterns.Repository
         public EFRepository(DbContext context, IIdGenerator<TDomainObjectId> idGenerator, IEnumerable<ISpecification<TDomainObjectId, TDomainObject>> specs)
             : base(idGenerator, specs)
         {
-            DbSet = context.Set<TDomainObject>();
+            DbContext = context.Set<TDomainObject>();
         }
 
-        public DbSet<TDomainObject> DbSet { get; }
+        public DbSet<TDomainObject> DbContext { get; }
 
         protected override async Task<IMultipleObjectResult<ICollection<TDomainObject>, TDomainObject>> GetByCriteria(Func<IQueryable<TDomainObject>, IQueryable<TDomainObject>> queryFunc)
         {
             return new MultipleObjectResult<ICollection<TDomainObject>, TDomainObject>
             (
                 "OK",
-                 await queryFunc(DbSet).ToListAsync()
+                 await queryFunc(DbContext).ToListAsync()
             );
         }
 
@@ -56,20 +56,20 @@ namespace UserZoom.Shared.Patterns.Repository
             return new SingleObjectResult<TDomainObject>
             (
                 "Ok",
-                await DbSet.FindAsync(id)
+                await DbContext.FindAsync(id)
             );
         }
 
         public override Task<IBasicResult> RemoveAsync(TDomainObject domainObject)
         {
-            DbSet.Remove(domainObject);
+            DbContext.Remove(domainObject);
 
             return Task.FromResult<IBasicResult>(new BasicResult("OK"));
         }
 
         protected override Task OnAddAsync(TDomainObject domainObject)
         {
-            DbSet.Add(domainObject);
+            DbContext.Add(domainObject);
 
             return Task.FromResult<IBasicResult>(new BasicResult("OK"));
         }

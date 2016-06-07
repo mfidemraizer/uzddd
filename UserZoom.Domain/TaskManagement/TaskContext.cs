@@ -14,7 +14,6 @@ namespace UserZoom.Domain.TaskManagement
         public TaskContext() 
             : base(ConfigurationManager.AppSettings["uz:data:connectionString:name"])
         {
-
         }
 
         public DbSet<UZTask> Tasks { get; set; }

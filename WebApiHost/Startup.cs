@@ -22,6 +22,10 @@ namespace WebApiHost
 
             HttpConfiguration config = new HttpConfiguration();
             config.MapHttpAttributeRoutes();
+
+            // Filters
+            config.Filters.Add(new CustomFilterAttribute());
+
             config.Formatters.JsonFormatter.SerializerSettings.NullValueHandling = NullValueHandling.Ignore;
             config.Formatters.JsonFormatter.SerializerSettings.ReferenceLoopHandling = ReferenceLoopHandling.Ignore;
             config.Formatters.JsonFormatter.SerializerSettings.ContractResolver = new CamelCasePropertyNamesContractResolver();
@@ -29,6 +33,8 @@ namespace WebApiHost
             config.Services.Replace(typeof(IHttpControllerActivator), new WindsorControllerActivator(container));
 
             // MIDDLEWARE
+            appBuilder.UseSample();
+            appBuilder.UseErrorPage();
             appBuilder.UseWebApi(config);
         }
     }
