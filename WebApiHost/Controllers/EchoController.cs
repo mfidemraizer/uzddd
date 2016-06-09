@@ -1,11 +1,14 @@
-﻿using System;
+﻿using AutoMapper;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Web.Http;
+using UserZoom.Domain;
 using UserZoom.Domain.TaskManagement;
 using UserZoom.Shared.Http;
+using WebApiHost.Dto;
 
 namespace WebApiHost.Controllers
 {
@@ -15,23 +18,28 @@ namespace WebApiHost.Controllers
     }
 
     [CustomFilter]
-    [RoutePrefix("api/v1/echo")]
-    public sealed class EchoController : ApiControllerBase
+    [RoutePrefix("api/v1/tasks")]
+    public sealed class TaskController : ApiControllerBase
     {
-        public EchoController(ITaskService taskService)
+        public TaskController(ITaskService taskService, IMapper mapper)
         {
             TaskService = taskService;
+            Mapper = mapper;
         }
 
         private ITaskService TaskService { get; }
+        private IMapper Mapper { get; }
         
-        [HttpGet, Route("{text}")]
-        public Task<IHttpActionResult> EchoAsync(string text)
+        [HttpPost, Route("", Name = "createTask")]
+        public Task<IHttpActionResult> CreateAsync(string text, TaskCreationDto dto)
         {
+            Mapper.Map<TaskCreationDto, UZTask>(dto);
+            UZTask task = new UZTask
+            {
+                Title = dto.Title
+            };
 
-            return CustomOk(true);
-            //
-            //return Ok(new { Text = text });
+            return OkOrBadRequest(TaskService.AddAsync(task));
         }
 
         [HttpPost, Route("")]

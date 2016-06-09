@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace UserZoom.Shared.Patterns.AccumulatedResult
 {
-    public class SingleObjectResult<TObject> : BasicResult, ISingleObjectResult<TObject>
+    public class SingleObjectResult<TObject> : BasicResult, ISingleObjectResult<TObject>, IHasObject
     {
         public SingleObjectResult(string description, TObject someObject)
             : base(description)
@@ -15,5 +15,7 @@ namespace UserZoom.Shared.Patterns.AccumulatedResult
         }
 
         public TObject Object { get; }
+
+        object IHasObject.Object => Object;
     }
 }

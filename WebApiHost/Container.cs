@@ -1,4 +1,5 @@
-﻿using Castle.MicroKernel.Registration;
+﻿using AutoMapper;
+using Castle.MicroKernel.Registration;
 using Castle.MicroKernel.Resolvers.SpecializedResolvers;
 using Castle.Windsor;
 using System;
@@ -25,7 +26,7 @@ namespace WebApiHost
 
             container.Register
             (
-                Component.For<EchoController>().ImplementedBy<EchoController>().LifestyleTransient(),
+                Component.For<TaskController>().ImplementedBy<TaskController>().LifestyleTransient(),
 
                 Component.For<ITaskService>().ImplementedBy<TaskService>(),
 
@@ -50,12 +51,15 @@ namespace WebApiHost
 
                 // Id generators
                 Component.For<IIdGenerator<Guid>>()
-                        .ImplementedBy<GuidIdGenerator>(),
+                        .ImplementedBy<GuidIdGenerator>().LifestyleTransient(),
 
                 // Specs
                 Component.For<ISpecification<Guid, UZTask>>()
                          .ImplementedBy<AddOrUpdateTaskSpec>()
-                         .LifestyleTransient()
+                         .LifestyleTransient(),
+
+                // Infrastructure
+                Component.For<IMapper>().ImplementedBy<Mapper>().LifestyleSingleton()
             );
 
             return container;

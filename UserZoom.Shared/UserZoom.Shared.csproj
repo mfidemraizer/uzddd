@@ -139,7 +139,12 @@
     <Compile Include="Data\IDataHandler.cs" />
     <Compile Include="Data\IDataQuery.cs" />
     <Compile Include="Data\IIdGenerator.cs" />
+    <Compile Include="Http\ApiControllerBase.cs" />
+    <Compile Include="Http\CustomActionResult.cs" />
+    <Compile Include="Http\CustomFilterAttribute.cs" />
+    <Compile Include="Http\MiddlewareBase.cs" />
     <Compile Include="Http\SampleMiddleware.cs" />
+    <Compile Include="Http\SampleMiddleware2.cs" />
     <Compile Include="Http\UZMiddlewareExtensions.cs" />
     <Compile Include="Http\WindsorControllerActivator.cs" />
     <Compile Include="ICanBeIdentifiable.cs" />

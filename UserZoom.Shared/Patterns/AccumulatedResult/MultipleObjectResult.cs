@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace UserZoom.Shared.Patterns.AccumulatedResult
 {
-    public class MultipleObjectResult<TCollection, TObject> : BasicResult, IMultipleObjectResult<TCollection, TObject>
+    public class MultipleObjectResult<TCollection, TObject> : BasicResult, IMultipleObjectResult<TCollection, TObject>, IHasObjects
         where TCollection : ICollection<TObject>
     {
         public MultipleObjectResult(string description, TCollection objects)
@@ -16,5 +16,7 @@ namespace UserZoom.Shared.Patterns.AccumulatedResult
         }
 
         public TCollection Objects { get; }
+
+        IEnumerable<object> IHasObjects.Objects => (IEnumerable<object>)Objects;
     }
 }

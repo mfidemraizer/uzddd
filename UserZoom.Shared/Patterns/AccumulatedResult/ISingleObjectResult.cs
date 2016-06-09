@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace UserZoom.Shared.Patterns.AccumulatedResult
 {
-    public interface ISingleObjectResult<TObject> : IBasicResult
+    public interface ISingleObjectResult<out TObject> : IBasicResult
     {
         TObject Object { get; }
     }
