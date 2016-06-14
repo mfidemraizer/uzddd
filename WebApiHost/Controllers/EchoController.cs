@@ -17,7 +17,7 @@ namespace WebApiHost.Controllers
         public string Text { get; set; }
     }
 
-    [CustomFilter]
+    //[CustomFilter]
     [RoutePrefix("api/v1/tasks")]
     public sealed class TaskController : ApiControllerBase
     {
@@ -29,24 +29,17 @@ namespace WebApiHost.Controllers
 
         private ITaskService TaskService { get; }
         private IMapper Mapper { get; }
-        
+
         [HttpPost, Route("", Name = "createTask")]
-        public Task<IHttpActionResult> CreateAsync(string text, TaskCreationDto dto)
+        public Task<IHttpActionResult> CreateAsync(UZTaskCreationDto dto)
         {
-            Mapper.Map<TaskCreationDto, UZTask>(dto);
-            UZTask task = new UZTask
-            {
-                Title = dto.Title
-            };
-
-            return OkOrBadRequest(TaskService.AddAsync(task));
+            return OkOrBadRequest(TaskService.AddAsync(Mapper.Map<UZTaskCreationDto, UZTask>(dto)));
         }
 
-        [HttpPost, Route("")]
-        public async Task<IHttpActionResult> SaveText(DataDto dto)
-        {
-            
-            return Ok();
-        }
+        //[HttpPost, Route("")]
+        //public async Task<IHttpActionResult> SaveText(DataDto dto)
+        //{
+        //    return Ok();
+        //}
     }
 }

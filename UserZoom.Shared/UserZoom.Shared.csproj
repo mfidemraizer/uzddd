@@ -99,6 +99,7 @@
       <HintPath>..\packages\Microsoft.Owin.3.0.1\lib\net45\Microsoft.Owin.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="Microsoft.VisualStudio.QualityTools.UnitTestFramework, Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL" />
     <Reference Include="Newtonsoft.Json, Version=8.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <HintPath>..\packages\Newtonsoft.Json.8.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
       <Private>True</Private>
@@ -140,9 +141,11 @@
     <Compile Include="Data\IDataQuery.cs" />
     <Compile Include="Data\IIdGenerator.cs" />
     <Compile Include="Http\ApiControllerBase.cs" />
+    <Compile Include="Http\HttpBasicResult.cs" />
     <Compile Include="Http\CustomActionResult.cs" />
     <Compile Include="Http\CustomFilterAttribute.cs" />
     <Compile Include="Http\MiddlewareBase.cs" />
+    <Compile Include="Http\ModelStateFilterAttribute.cs" />
     <Compile Include="Http\SampleMiddleware.cs" />
     <Compile Include="Http\SampleMiddleware2.cs" />
     <Compile Include="Http\UZMiddlewareExtensions.cs" />
@@ -150,6 +153,8 @@
     <Compile Include="ICanBeIdentifiable.cs" />
     <Compile Include="ICanBeIdentifiableContractClass.cs" />
     <Compile Include="ICanPerformDirtyChecking.cs" />
+    <Compile Include="IHasObject.cs" />
+    <Compile Include="IHasObjects.cs" />
     <Compile Include="IHasTimestamp.cs" />
     <Compile Include="IO\FileSystemUnitOfWork.cs" />
     <Compile Include="Patterns\AccumulatedResult\BasicResult.cs" />
@@ -173,6 +178,7 @@
     <Compile Include="Patterns\UnitOfWork\IUnitOfWork.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Redis\ConnectionMultiplexerFactory.cs" />
+    <Compile Include="UriExtensions.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />

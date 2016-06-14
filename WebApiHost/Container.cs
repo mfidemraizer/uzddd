@@ -3,7 +3,10 @@ using Castle.MicroKernel.Registration;
 using Castle.MicroKernel.Resolvers.SpecializedResolvers;
 using Castle.Windsor;
 using System;
+using System.Linq;
+using System.Collections.Generic;
 using System.Data.Entity;
+using System.Reflection;
 using System.Web.Http;
 using UserZoom.Domain;
 using UserZoom.Domain.TaskManagement;
@@ -14,6 +17,8 @@ using UserZoom.Shared.Patterns.Repository;
 using UserZoom.Shared.Patterns.Specification;
 using UserZoom.Shared.Patterns.UnitOfWork;
 using WebApiHost.Controllers;
+using WebApiHost.Dto;
+using WebApiHost.Installers;
 
 namespace WebApiHost
 {
@@ -23,6 +28,10 @@ namespace WebApiHost
         {
             WindsorContainer container = new WindsorContainer();
             container.Kernel.Resolver.AddSubResolver(new CollectionResolver(container.Kernel));
+            container.Install
+            (
+                new AutoMapperInstaller()
+            );
 
             container.Register
             (
@@ -56,10 +65,9 @@ namespace WebApiHost
                 // Specs
                 Component.For<ISpecification<Guid, UZTask>>()
                          .ImplementedBy<AddOrUpdateTaskSpec>()
-                         .LifestyleTransient(),
+                         .LifestyleTransient()
 
                 // Infrastructure
-                Component.For<IMapper>().ImplementedBy<Mapper>().LifestyleSingleton()
             );
 
             return container;

@@ -13,7 +13,7 @@ namespace UserZoom.Shared.Http
     {
         public override Task OnActionExecutingAsync(HttpActionContext actionContext, CancellationToken cancellationToken)
         {
-            actionContext.Response = new System.Net.Http.HttpResponseMessage(System.Net.HttpStatusCode.Unauthorized);
+            //actionContext.Response = new System.Net.Http.HttpResponseMessage(System.Net.HttpStatusCode.Unauthorized);
             return base.OnActionExecutingAsync(actionContext, cancellationToken);
         }
 
