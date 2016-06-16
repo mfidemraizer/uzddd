@@ -30,21 +30,23 @@ namespace WebApiHost
             container.Kernel.Resolver.AddSubResolver(new CollectionResolver(container.Kernel));
             container.Install
             (
-                new AutoMapperInstaller()
+                new AutoMapperInstaller(),
+                new ApiControllerInstaller("WebApiHost")
             );
+
 
             container.Register
             (
-                Component.For<TaskController>().ImplementedBy<TaskController>().LifestyleTransient(),
+                Component.For<ApiController>().ImplementedBy<TaskController>().LifestyleTransient(),
 
                 Component.For<ITaskService>().ImplementedBy<TaskService>(),
 
                 // Units of work
                 Component.For<IDomainUnitOfWork<Guid, UZTask, IRepository<Guid, UZTask>>>()
-                        .ImplementedBy<EFUnitOfWork<Guid, UZTask, IRepository<Guid, UZTask>, TaskContext>>()
-                        .DependsOn(Dependency.OnComponent<DbContext, TaskContext>()),
+                        .ImplementedBy<EFUnitOfWork<Guid, UZTask, IRepository<Guid, UZTask>, UZTaskContext>>()
+                        .DependsOn(Dependency.OnComponent<DbContext, UZTaskContext>()),
 
-                Component.For<TaskContext>().LifestyleBoundTo<ApiController>(),
+                Component.For<UZTaskContext>().LifestyleBoundTo<ApiController>(),
 
                 // DbContexts
 
@@ -55,7 +57,7 @@ namespace WebApiHost
                 //Repositories
                 Component.For<IRepository<Guid, UZTask>>()
                             .ImplementedBy<EFRepository<Guid, UZTask>>()
-                            .DependsOn(Dependency.OnComponent<DbContext, TaskContext>())
+                            .DependsOn(Dependency.OnComponent<DbContext, UZTaskContext>())
                             .LifestyleTransient(),
 
                 // Id generators

@@ -32,19 +32,7 @@ namespace WebApiHost.Installers
                         {
                             config.CreateMap(dto, mappeableDomainObject);
                         }
-                        //typeof(IProfileExpression).GetMethod("CreateMap").MakeGenericMethod(new[] { typeof(Type), typeof(Type) })
-                        //                            .Invoke(config, new object[] { dto, mappeableDomainObject });
                     }
-
-                    //      config.CreateMap<UZTaskCreationDto, UZTask>()
-                    // .ForMember(domainObject => domainObject.Title, options => options.Condition(dto => !string.IsNullOrEmpty(dto.Title)))
-                    //.AfterMap
-                    //(
-                    //     (dto, domainObject) =>
-                    //     {
-
-                    //     }
-                    // );
                 }
             );
             container.Register(Component.For<IMapper>().UsingFactoryMethod((a, b) => mapperConfig.CreateMapper()));

@@ -9,9 +9,9 @@ using UserZoom.Domain;
 
 namespace UserZoom.Domain.TaskManagement
 {
-    public sealed class TaskContext : DbContext
+    public sealed class UZTaskContext : DbContext
     {
-        public TaskContext() 
+        public UZTaskContext() 
             : base(ConfigurationManager.AppSettings["uz:data:connectionString:name"])
         {
         }

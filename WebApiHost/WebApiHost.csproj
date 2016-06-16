@@ -111,6 +111,7 @@
     <Compile Include="Container.cs" />
     <Compile Include="Controllers\EchoController.cs" />
     <Compile Include="Dto\TaskCreationDto.cs" />
+    <Compile Include="Installers\ApiControllerInstaller.cs" />
     <Compile Include="Installers\AutoMapperInstaller.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
