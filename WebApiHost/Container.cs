@@ -35,11 +35,8 @@ namespace WebApiHost
                 new DomainInstaller("UserZoom.Domain")
             );
 
-
             container.Register
             (
-                Component.For<ITaskService>().ImplementedBy<TaskService>(),
-
                 // Units of work
 
                 Component.For<UZTaskContext>().LifestyleBoundTo<ApiController>(),

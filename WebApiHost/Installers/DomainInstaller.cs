@@ -70,6 +70,17 @@ namespace WebApiHost.Installers
             }
 
             container.Register(registrations.ToArray());
+
+            container.Register
+            (
+                Classes.FromAssembly(Assembly.Load("UserZoom.Domain"))
+                        .Where
+                        (
+                            type => type.Namespace.Contains(".Domain") 
+                                    && !type.Name.StartsWith("Fake") 
+                                    && type.Name.EndsWith("Service")
+                        ).WithServiceFirstInterface()
+            );
         }
     }
 }
