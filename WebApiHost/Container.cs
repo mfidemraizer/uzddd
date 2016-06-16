@@ -31,34 +31,18 @@ namespace WebApiHost
             container.Install
             (
                 new AutoMapperInstaller(),
-                new ApiControllerInstaller("WebApiHost")
+                new ApiControllerInstaller("WebApiHost"),
+                new DomainInstaller("UserZoom.Domain")
             );
 
 
             container.Register
             (
-                Component.For<ApiController>().ImplementedBy<TaskController>().LifestyleTransient(),
-
                 Component.For<ITaskService>().ImplementedBy<TaskService>(),
 
                 // Units of work
-                Component.For<IDomainUnitOfWork<Guid, UZTask, IRepository<Guid, UZTask>>>()
-                        .ImplementedBy<EFUnitOfWork<Guid, UZTask, IRepository<Guid, UZTask>, UZTaskContext>>()
-                        .DependsOn(Dependency.OnComponent<DbContext, UZTaskContext>()),
 
                 Component.For<UZTaskContext>().LifestyleBoundTo<ApiController>(),
-
-                // DbContexts
-
-                //Component.For<DbContext>()
-                //        .ImplementedBy<TaskContext>()
-                //        .LifestyleBoundTo<ApiController>(),
-
-                //Repositories
-                Component.For<IRepository<Guid, UZTask>>()
-                            .ImplementedBy<EFRepository<Guid, UZTask>>()
-                            .DependsOn(Dependency.OnComponent<DbContext, UZTaskContext>())
-                            .LifestyleTransient(),
 
                 // Id generators
                 Component.For<IIdGenerator<Guid>>()

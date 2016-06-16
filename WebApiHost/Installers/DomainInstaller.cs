@@ -28,21 +28,23 @@ namespace WebApiHost.Installers
             IEnumerable<Type> allTypes = AssemblyNames.Select(name => Assembly.Load(name))
                                                         .SelectMany(assembly => assembly.GetTypes());
 
-            IEnumerable<Type> domainObjectTypes = allTypes.Where(t => t.Namespace.Contains(".Domain") && typeof(DomainObject).IsAssignableFrom(t));
+            IEnumerable<Type> dbContextTypes = allTypes.Where(t => t.Namespace.Contains(".Domain") && typeof(DbContext).IsAssignableFrom(t));
 
-            IEnumerable<Type> dbContexts = allTypes.Where
+            IDictionary<Type, Type> dbSetHash = dbContextTypes.SelectMany
             (
-                domainObjectType => typeof(DbContext).IsAssignableFrom(domainObjectType)
-                && domainObjectType.GetProperties(BindingFlags.DeclaredOnly | BindingFlags.Instance | BindingFlags.Public).Any
-                (
-                    contextType => contextType.PropertyType.GetGenericTypeDefinition() == typeof(DbSet<>) 
-                                    && contextType.PropertyType.GetGenericArguments()[0] == domainObjectType
-                )
+                dbContexType => dbContexType.GetProperties(BindingFlags.DeclaredOnly | BindingFlags.Instance | BindingFlags.Public)
+                                            .Where(property => property.PropertyType.GetGenericTypeDefinition() == typeof(DbSet<>))
+            ).ToDictionary
+            (
+                    dbSet => dbSet.PropertyType.GetGenericArguments()[0],
+                    dbSet => dbSet.DeclaringType
             );
+
+            IEnumerable<Type> domainObjectTypes = allTypes.Where(t => t.Namespace.Contains(".Domain") && dbSetHash.ContainsKey(t) && typeof(DomainObject).IsAssignableFrom(t));
 
             Type repoType = typeof(IRepository<,>);
             Type unitOfWorkType = typeof(IDomainUnitOfWork<,,>);
-            Type concreteRepoType = typeof(EFRepository<,>);
+            Type concreteRepoType = typeof(EFRepository<,,>);
             Type concreteUnitOfWork = typeof(EFUnitOfWork<,,,>);
 
             List<IRegistration> registrations = new List<IRegistration>();
@@ -50,22 +52,24 @@ namespace WebApiHost.Installers
             foreach (Type domainObjectType in domainObjectTypes)
             {
                 Type domainRepo = repoType.MakeGenericType(typeof(Guid), domainObjectType);
-                Type concreteDomainRepo = concreteRepoType.MakeGenericType(typeof(Guid), domainObjectType);
+                Type concreteDomainRepo = concreteRepoType.MakeGenericType(typeof(Guid), domainObjectType, dbSetHash[domainObjectType]);
 
                 registrations.Add
                 (
                     Component.For(domainRepo)
-                                .ImplementedBy(concreteRepoType.MakeGenericType(typeof(Guid), domainObjectType))
+                                .ImplementedBy(concreteDomainRepo)
                                 .LifestyleTransient()
                 );
 
                 registrations.Add
                 (
                     Component.For(unitOfWorkType.MakeGenericType(typeof(Guid), domainObjectType, domainRepo))
-                                .ImplementedBy(concreteUnitOfWork.MakeGenericType(typeof(Guid), domainObjectType, domainRepo, null))
+                                .ImplementedBy(concreteUnitOfWork.MakeGenericType(typeof(Guid), domainObjectType, domainRepo, dbSetHash[domainObjectType]))
                                 .LifestyleTransient()
                 );
             }
+
+            container.Register(registrations.ToArray());
         }
     }
 }

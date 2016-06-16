@@ -28,6 +28,9 @@ namespace UserZoom.Shared.Http
 
         private bool ActionIsInWhiteList(HttpActionContext actionContext)
         {
+            if (Configuration.ActionWhiteList.Count == 0)
+                return true;
+
             MethodInfo actionMethod = actionContext.ControllerContext.Controller
                                                     .GetType()
                                                     .GetMethod(actionContext.ActionDescriptor.ActionName);

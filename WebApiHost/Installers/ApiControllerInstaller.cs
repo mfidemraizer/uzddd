@@ -27,7 +27,7 @@ namespace WebApiHost.Installers
                 (
                     assembly.GetTypes()
                                             .Where(t => typeof(ApiController).IsAssignableFrom(t))
-                                            .Select(t => Component.For(typeof(ApiController)).ImplementedBy(t).LifestyleTransient())
+                                            .Select(t => Component.For(t).LifestyleTransient())
                                             .ToArray()
                 );
             }
